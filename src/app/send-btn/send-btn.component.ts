@@ -9,13 +9,9 @@ import { NotificationService } from "../notification.service";
 export class SendBtnComponent implements OnInit {
   constructor(private notificationService: NotificationService) {}
 
-  counter: number = 0;
-
   ngOnInit() {}
 
   send() {
-    this.notificationService.sendNotification(
-      "New notification " + this.counter++
-    );
+    this.notificationService.sendNotification("New notification!");
   }
 }

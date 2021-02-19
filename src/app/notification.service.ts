@@ -1,30 +1,16 @@
 import { Injectable } from "@angular/core";
 import { Observable, of, Subject, timer } from "rxjs";
 import { debounce, filter, map, tap } from "rxjs/operators";
+import { Notification } from "./notification";
 
 @Injectable({ providedIn: "root" })
 export class NotificationService {
-  private notificationSubject = new Subject();
+  private notificationSubject = new Subject<Notification>();
   notificationStream$ = this.notificationSubject.asObservable();
 
-  constructor() {
-    this.notificationStream$
-      .pipe(
-        filter(msg => msg !== ""),
-        tap(msg => console.log(msg)),
-        debounce(() => timer(3000)),
-        tap(() => {
-          this.notificationSubject.next("");
-        })
-      )
-      .subscribe();
-  }
+  constructor() {}
 
   sendNotification(msg: string) {
-    this.notificationSubject.next(msg);
-  }
-
-  cancelNotification() {
-    this.notificationSubject.next("");
+    this.notificationSubject.next(Notification.createNotification(msg));
   }
 }

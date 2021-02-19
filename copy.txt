@@ -1,0 +1,25 @@
+const notifications$: Observable<string> = undefined;
+
+    const notificationClosedByUser$: Observable<string> = undefined;
+
+
+
+    const notifTimeout$ = notifications$.pipe(delay(3000));
+
+    const notificationArray$ = notifications$.pipe(scan((arr, curr) => [...arr, curr], []));
+
+
+
+    const takeNotifOutOfArray$ = merge(notificationClosedByUser$, notifTimeout$);
+
+
+
+    const notificationsToDisplay$ = combineLatest([notificationArray$, takeNotifOutOfArray$]).pipe(
+
+      map(([notifArray, toTakeOut]) =>
+
+        toTakeOut?.length > 0 ? notifArray.filter(notif => notif !== toTakeOut) : notifArray
+
+      )
+
+    );

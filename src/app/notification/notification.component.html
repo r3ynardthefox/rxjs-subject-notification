@@ -1,3 +1,4 @@
-<p>
-	<a>notification: {{ notification$ | async  }}</a><button (click)="cancel()">x</button>
+<p *ngFor="let notification of (notificationsToDisplay$ | async)">
+	<a>notification: {{ notification.getMessage() }}
+		{{ notification.getId() }}</a><button (click)="cancel(notification)">x</button>
 </p>
